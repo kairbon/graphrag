@@ -71,6 +71,7 @@ class DashscopeGenerationLLM(BaseLLM):
         callbacks: list[BaseLLMCallback] | None = None,
         **kwargs: Any,
     ) -> str:
+        log.error("prompt: %s", messages)
         try:
             retryer = Retrying(
                 stop=stop_after_attempt(self.max_retries),
@@ -100,6 +101,9 @@ class DashscopeGenerationLLM(BaseLLM):
             callbacks: list[BaseLLMCallback] | None = None,
             **kwargs: Any,
     ) -> str:
+        if float(kwargs['top_p']) == 1 or float(kwargs['top_p']) == 0 :
+            kwargs['top_p'] = 0.9
+        log.info("qwen req" + str(messages) + "|arg|" + str(type(kwargs)) + "|" + str(kwargs))
         if isinstance(messages, list):
             response = dashscope.Generation.call(
                 model=self.model,
@@ -124,7 +128,6 @@ class DashscopeGenerationLLM(BaseLLM):
 
         # if response.status_code != HTTPStatus.OK:
         #     raise Exception(f"Error {response.code}: {response.message}")
-
         if streaming:
             full_response = ""
             for chunk in response:
@@ -138,6 +141,7 @@ class DashscopeGenerationLLM(BaseLLM):
                         callback.on_llm_new_token(decoded_chunk)
             return full_response
         else:
+            log.info("qwen res" + str(response))
             if isinstance(messages, list):
                 return response.output["choices"][0]["message"]["content"]
             else:

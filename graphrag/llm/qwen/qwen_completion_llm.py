@@ -29,7 +29,7 @@ class QwenCompletionLLM(
         CompletionOutput,
     ]
 ):
-    def __init__(self, llm_config: dict = None):
+    def __init__(self, llm_config: dict = None): # type: ignore
         log.info(f"llm_config: {llm_config}")
         self.llm_config = llm_config or {}
         self.api_key = self.llm_config.get("api_key", "")
@@ -51,6 +51,8 @@ class QwenCompletionLLM(
         # 使用字符串替换功能替换占位符
         formatted_input = replace_placeholders(input, variables)
 
+        log.error("prompt %s", formatted_input)
+
         if self.chat_mode:
             history = kwargs.get("history", [])
             messages = [
@@ -61,28 +63,37 @@ class QwenCompletionLLM(
         else:
             response = self.call_with_prompt(formatted_input)
 
-        if response.status_code == HTTPStatus.OK:
+        if response.status_code == HTTPStatus.OK: # type: ignore
             if self.chat_mode:
-                return response.output["choices"][0]["message"]["content"]
+                return response.output["choices"][0]["message"]["content"] # type: ignore
             else:
-                return response.output["text"]
+                return response.output["text"] # type: ignore
         else:
-            raise Exception(f"Error {response.code}: {response.message}")
+            raise Exception(f"Error {response.code}: {response.message}") # type: ignore
 
     def call_with_prompt(self, query: str):
-        print("call_with_prompt {}".format(query))
-        response = dashscope.Generation.call(
-            model=self.model,
-            prompt=query,
-            api_key=self.api_key
-        )
+        # print("call_with_prompt {}".format(query))
+        try:
+            response = dashscope.Generation.call(
+                model=self.model,
+                prompt=query,
+                api_key=self.api_key
+            )
+        except Exception as e:
+            print("call dashscope Exception {}".format(e))
+            response = dashscope.Generation.call(
+                model=self.model,
+                prompt=query,
+                api_key=self.api_key
+            )
+            print("call dashscope Exception retry res {}".format(response))
         return response
 
     def call_with_messages(self, messages: list[dict[str, str]]):
-        print("call_with_messages {}".format(messages))
+        # print("call_with_messages {}".format(messages))
         response = dashscope.Generation.call(
             model=self.model,
-            messages=messages,
+            messages=messages, # type: ignore
             api_key=self.api_key,
             result_format='message',
         )
@@ -91,7 +102,7 @@ class QwenCompletionLLM(
     # 主函数
     async def _invoke_json(self, input: TIn, **kwargs) -> LLMOutput[TOut]:
         try:
-            output = await self._execute_llm(input, **kwargs)
+            output = await self._execute_llm(input, **kwargs) # type: ignore
         except Exception as e:
             print(f"Error executing LLM: {e}")
             return LLMOutput[TOut](output=None, json=None)
@@ -111,7 +122,7 @@ class QwenCompletionLLM(
             output_str = None
 
         return LLMOutput[TOut](
-            output=output_str,
+            output=output_str, # type: ignore
             json=json_data
         )
 
@@ -164,7 +175,7 @@ if __name__ == '__main__':
         print(output)
 
 
-    asyncio.run(main())
+    asyncio.run(main()) # type: ignore
 
     llm_config = {
         "api_key": "",
@@ -173,4 +184,4 @@ if __name__ == '__main__':
     }
     llm = QwenCompletionLLM(llm_config)
 
-    asyncio.run(main())
+    asyncio.run(main()) # type: ignore

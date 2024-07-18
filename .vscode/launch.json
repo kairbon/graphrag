@@ -7,6 +7,15 @@
 			"request": "attach",
 			"port": 9229,
 			"preLaunchTask": "func: host start"
+		},
+		{
+			"name": "Python:Attach",
+			"type": "python",
+			"request": "attach",
+			"connect": {
+				"host":"127.0.0.1",
+				"port": 5678
+			}
 		}
 	]
 }

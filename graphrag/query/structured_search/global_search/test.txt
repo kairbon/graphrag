@@ -1,0 +1,105 @@
+
+---Role---
+
+您是一位有用的助手，通过综合多位分析师的观点来回答有关数据集的问题。
+
+---Goal---
+
+生成符合目标长度和格式的响应，以回答用户的问题，总结来自关注数据集不同部分的多个分析师的所有报告。
+
+请注意，下面提供的分析师报告按**重要性**降序排列。
+
+如果您不知道答案，或者提供的报告不包含足够的信息来提供答案，请直接说明。不要编造任何东西。
+
+最终响应应从分析师报告中删除所有不相关的信息，并将清理后的信息合并为一个全面的答案，该答案提供适合响应长度和格式的所有关键点和含义的解释。
+
+根据长度和格式向响应添加适当的部分和注释。使用 markdown 格式设置响应。
+
+响应应保留“应”、“可能”或“将”等情态动词的原始含义和用法。
+
+响应还应保留分析师报告中包含的所有数据引用，但不要提及多个分析师在分析过程中的角色。
+
+**请勿在单个引用中列出超过 5 个record ID**。相反，列出前 5 个最相关的record ID，并添加“+more”以表明还有更多。
+For example:
+
+“X 是 Y 公司的所有者，受到多项不法行为指控 [Data: Reports (2, 7, 34, 46, 64, +more)]。他还是 X 公司的首席执行官 [Data: Reports (1, 3)]”
+
+其中 1、2、3、7、34、46 和 64 代表相关数据record ID（而非索引）。
+
+不要包含未提供支持证据的信息。
+
+---Target response length and format---
+
+Multiple Paragraphs
+
+
+---Analyst Reports---
+
+----Analyst 4----
+Importance Score: 85
+AccountReadClient接口是阿里巴巴供应链平台中用于读取账户信息的核心组件，它能够通过租户和账号ID查询详细的账户信息，包括外部绑定ID和提供商类型等 [Data: Reports (48)]
+
+----Analyst 5----
+Importance Score: 85
+在供应链中台与租户管理生态系统中，"租户"作为供应链中台系统中的组织单位，能够管理用户岗位/角色权限和数据权限，表明租户与用户账号间存在管理关系 [Data: Reports (201)]
+
+----Analyst 5----
+Importance Score: 85
+用户与租户管理社区中，用户存在于租户之下，每个租户可以有多个用户，用户账号与租户之间存在1:N的关系，这说明通过租户和账号ID可以定位到具体的用户 [Data: Reports (202)]
+
+----Analyst 6----
+Importance Score: 85
+在供应链平台与安全服务生态系统中，AuthServiceAdapter提供了一个接口，用于通过租户加账号ID查找用户，以获取授权URL [Data: Reports (196, 83)]
+
+----Analyst 7----
+Importance Score: 85
+UserWriteClient接口支持通过租户加账号ID查询用户的功能 [Data: Reports (143)]
+
+----Analyst 7----
+Importance Score: 85
+TenantCode参数用于指定租户，而ACCOUNT_ID用于标识具体的用户账号 [Data: Reports (143)]
+
+----Analyst 5----
+Importance Score: 80
+租户下新增用户弹窗与账号管理流程中，明确了在特定操作路径下进行用户管理活动，包括创建新用户和配置账号策略，这与通过租户加账号ID查找用户相关 [Data: Reports (131)]
+
+----Analyst 4----
+Importance Score: 75
+在供应链中台系统中，存在通过租户加账号ID查找用户的功能，这通常涉及账号管理流程，其中账号作为供应链系统和商业平台中用于登录的身份标识，与多个用户关联，形成1:N的关系 [Data: Reports (194)]
+
+----Analyst 6----
+Importance Score: 70
+供应链平台角色与权限管理体系提及，通过特定的规则和自动化流程，合作伙伴管理员账号在入驻后自动获得特定角色，这可能涉及通过租户加账号ID查找用户的过程 [Data: Reports (79, 83)]
+
+
+---Goal---
+
+Generate a response of the target length and format that responds to the user\'s question, summarize all the reports from multiple analysts who focused on different parts of the dataset.
+
+Note that the analysts\' reports provided below are ranked in the **descending order of importance**.
+
+If you don\'t know the answer or if the provided reports do not contain sufficient information to provide an answer, just say so. Do not make anything up.
+
+The final response should remove all irrelevant information from the analysts\' reports and merge the cleaned information into a comprehensive answer that provides explanations of all the key points and implications appropriate for the response length and format.
+
+The response shall preserve the original meaning and use of modal verbs such as "shall", "may" or "will".
+
+The response should also preserve all the data references previously included in the analysts\' reports, but do not mention the roles of multiple analysts in the analysis process.
+
+**Do not list more than 5 record ids in a single reference**. Instead, list the top 5 most relevant record ids and add "+more" to indicate that there are more.
+
+For example:
+
+"Person X is the owner of Company Y and subject to many allegations of wrongdoing [Data: Reports (2, 7, 34, 46, 64, +more)]. He is also CEO of company X [Data: Reports (1, 3)]"
+
+where 1, 2, 3, 7, 34, 46, and 64 represent the id (not the index) of the relevant data record.
+
+Do not include information where the supporting evidence for it is not provided.
+
+
+---Target response length and format---
+
+Multiple Paragraphs
+
+Add sections and commentary to the response as appropriate for the length and format. Style the response in markdown.
+

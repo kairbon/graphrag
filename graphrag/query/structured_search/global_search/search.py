@@ -43,8 +43,9 @@ DEFAULT_REDUCE_LLM_PARAMS = {
     "temperature": 0.0,
 }
 
+# 配置logger
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log = logging.getLogger(__name__)
-
 
 @dataclass
 class GlobalSearchResult(SearchResult):
@@ -119,7 +120,6 @@ class GlobalSearch(BaseSearch):
         context_chunks, context_records = self.context_builder.build_context(
             conversation_history=conversation_history, **self.context_builder_params
         )
-
         if self.callbacks:
             for callback in self.callbacks:
                 callback.on_map_response_start(context_chunks)  # type: ignore

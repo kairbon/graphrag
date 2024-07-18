@@ -64,6 +64,8 @@ __blobstorage__/
 # Getting started example
 ragtest/
 .ragtest/
+question_interface/
+.question_interface/
 .pipelines
 .pipeline### venv template
 # Virtualenv
@@ -257,3 +259,4 @@ cython_debug/
 
 
 /ragtest
+/question_interface
