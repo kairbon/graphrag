@@ -69,7 +69,8 @@ class QwenCompletionLLM(
             else:
                 return response.output["text"] # type: ignore
         else:
-            raise Exception(f"Error {response.code}: {response.message}") # type: ignore
+            log.error(f"Error {response.code}: {response.message}") # type: ignore
+            return await self._execute_llm(input, **kwargs)
 
     def call_with_prompt(self, query: str):
         # print("call_with_prompt {}".format(query))

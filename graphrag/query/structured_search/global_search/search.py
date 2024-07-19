@@ -229,6 +229,7 @@ class GlobalSearch(BaseSearch):
         list[dict[str, Any]]
             A list of key points, each key point is a dictionary with "answer" and "score" keys
         """
+        log.error("search_response =  %s", search_response)
         parsed_elements = json.loads(search_response)["points"]
         return [
             {

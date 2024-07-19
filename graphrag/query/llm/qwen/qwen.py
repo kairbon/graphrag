@@ -102,7 +102,8 @@ class DashscopeGenerationLLM(BaseLLM):
             **kwargs: Any,
     ) -> str:
         if float(kwargs['top_p']) == 1 or float(kwargs['top_p']) == 0 :
-            kwargs['top_p'] = 0.9
+            kwargs['top_p'] = 0.8
+        kwargs['temperature'] = 0
         log.info("qwen req" + str(messages) + "|arg|" + str(type(kwargs)) + "|" + str(kwargs))
         if isinstance(messages, list):
             response = dashscope.Generation.call(

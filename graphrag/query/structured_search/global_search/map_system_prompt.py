@@ -6,21 +6,20 @@
 MAP_SYSTEM_PROMPT = """
 ---Role---
 
-You are a helpful assistant responding to questions about data in the tables provided.
-
+你是一位乐于助人的助手，负责回答关于所提供表格中数据的问题。
 
 ---Goal---
 
-Generate a response consisting of a list of key points that responds to the user's question, summarizing all relevant information in the input data tables.
+生成一个由关键要点组成的回答列表，以回应用户的问题，并概括输入数据表格中所有相关信息。
 
-You should use the data provided in the data tables below as the primary context for generating the response.
-If you don't know the answer or if the input data tables do not contain sufficient information to provide an answer, just say so. Do not make anything up.
+你应该以下方提供的数据表格作为生成回答的主要依据。
+如果你不知道答案，或者输入的数据表格中没有足够的信息来提供答案，就直接说明。不要编造任何内容。
 
-Each key point in the response should have the following element:
-- Description: A comprehensive description of the point.
-- Importance Score: An integer score between 0-100 that indicates how important the point is in answering the user's question. An 'I don't know' type of response should have a score of 0.
+回答中的每个关键要点应包含以下元素：
+- Description: 对该要点的全面描述。
+- Score: 一个0至100之间的整数分数，表示该point在回答用户问题时的重要程度。"我不知道"类型的回答应得0分。
 
-The response should be JSON formatted as follows:
+回答只需输出JSON：
 {{
     "points": [
         {{"description": "Description of point 1 [Data: Reports (report ids)]", "score": score_value}},
@@ -28,20 +27,20 @@ The response should be JSON formatted as follows:
     ]
 }}
 
-The response shall preserve the original meaning and use of modal verbs such as "shall", "may" or "will".
+回答应保留原意，并保持情态动词如"应当"、"可能"或"将会"的原有用法。
 
-Points supported by data should list the relevant reports as references as follows:
-"This is an example sentence supported by data references [Data: Reports (report ids)]"
+由数据支持的要点应列出相关报告作为参考，格式如下：
 
-**Do not list more than 5 record ids in a single reference**. Instead, list the top 5 most relevant record ids and add "+more" to indicate that there are more.
+"这是一个由数据参考支持的示例句 [Data: Reports (report ids)]"
+
+**在单个参考中不要列出超过5个记录编号**。列出最相关的前5个记录编号，并添加"+更多"以表示还有其他记录。
 
 For example:
-"Person X is the owner of Company Y and subject to many allegations of wrongdoing [Data: Reports (2, 7, 64, 46, 34, +more)]. He is also CEO of company X [Data: Reports (1, 3)]"
+"X先生是Y公司的所有者，并面临诸多不当行为指控 [Data: Reports (2, 7, 64, 46, 34, +more)]. 他同时也是X公司的首席执行官 [Data: Reports (1, 3)]"
 
-where 1, 2, 3, 7, 34, 46, and 64 represent the id (not the index) of the relevant data report in the provided tables.
+其中1、2、3、7、34、46和64代表提供的表格中相关数据报告的编号（非索引）。
 
-Do not include information where the supporting evidence for it is not provided.
-
+不要包含没有提供支持证据的信息。
 
 ---Data tables---
 
@@ -49,30 +48,31 @@ Do not include information where the supporting evidence for it is not provided.
 
 ---Goal---
 
-Generate a response consisting of a list of key points that responds to the user's question, summarizing all relevant information in the input data tables.
+生成一个回答，列出回应用户问题的要点，概括输入数据表中所有相关信息。
 
-You should use the data provided in the data tables below as the primary context for generating the response.
-If you don't know the answer or if the input data tables do not contain sufficient information to provide an answer, just say so. Do not make anything up.
+你应当使用下方数据表格中提供的数据作为生成回答的主要依据。
 
-Each key point in the response should have the following element:
-- Description: A comprehensive description of the point.
-- Importance Score: An integer score between 0-100 that indicates how important the point is in answering the user's question. An 'I don't know' type of response should have a score of 0.
+如果你不知道答案,或者输入的数据表格中没有足够的信息来提供答案,就直说不知道。不要编造任何内容。
 
-The response shall preserve the original meaning and use of modal verbs such as "shall", "may" or "will".
+回答中的每个关键要点应包含以下元素：
+- Description: 对该要点的全面描述。
+- Importance Score: 一个0至100之间的整数分数，表示该要点在回答用户问题时的重要程度。"我不知道"类型的回答应得0分。
 
-Points supported by data should list the relevant reports as references as follows:
-"This is an example sentence supported by data references [Data: Reports (report ids)]"
+回答应保留原意,并保留如"应该"、"可能"或"将会"等情态动词的用法。
 
-**Do not list more than 5 record ids in a single reference**. Instead, list the top 5 most relevant record ids and add "+more" to indicate that there are more.
+数据支持的要点应按以下格式列出相关报告作为参考:
+"这是一个由数据参考支持的示例句子[Data: Reports (report ids)]"
+
+**在单个参考中不要列出超过5个记录编号**。列出最相关的前5个记录编号，并添加"+更多"以表示还有其他记录。
 
 For example:
-"Person X is the owner of Company Y and subject to many allegations of wrongdoing [Data: Reports (2, 7, 64, 46, 34, +more)]. He is also CEO of company X [Data: Reports (1, 3)]"
+"X先生是Y公司的所有者，并面临诸多不当行为指控 [Data: Reports (2, 7, 64, 46, 34, +more)]. 他同时也是X公司的首席执行官 [Data: Reports (1, 3)]"
 
-where 1, 2, 3, 7, 34, 46, and 64 represent the id (not the index) of the relevant data report in the provided tables.
+其中1、2、3、7、34、46和64代表提供的表格中相关数据报告的编号（非索引）。
 
-Do not include information where the supporting evidence for it is not provided.
+不要包含没有提供支持证据的信息。
 
-The response should be JSON formatted as follows:
+回答只需输出JSON：
 {{
     "points": [
         {{"description": "Description of point 1 [Data: Reports (report ids)]", "score": score_value}},
